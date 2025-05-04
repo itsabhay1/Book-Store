@@ -27,12 +27,17 @@ function Banner() {
                                 </svg>
                                 <input type="text" className="grow" placeholder="Enter your email to login" />
                             </label>
-                            <button className="btn btn-secondary">Login</button>
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => document.getElementById("my_modal_3")?.showModal()}
+                            >
+                                Login
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div className='w-full order-1 mt-12 md:w-1/2'>
-                <img src={banner} className='w-92 h-92 ' alt="" />
+                    <img src={banner} className='w-92 h-92 ' alt="" />
                 </div>
             </div>
         </>
