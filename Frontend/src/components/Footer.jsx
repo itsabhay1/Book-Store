@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function footer() {
   return (
@@ -6,8 +7,8 @@ function footer() {
         <hr className='mt-12'></hr>
       <footer className="footer footer-horizontal footer-center text-base-content rounded p-10 dark:bg-slate-900 dark:text-white">
   <nav className="grid grid-flow-col gap-4">
-    <a className="link link-hover">About us</a>
-    <a className="link link-hover">Contact</a>
+  <Link to="/about" className="link link-hover">About us</Link>
+  <Link to="/contact" className="link link-hover">Contact</Link>
     <a className="link link-hover">Jobs</a>
     <a className="link link-hover">Press kit</a>
   </nav>
@@ -49,7 +50,7 @@ function footer() {
     </div>
   </nav>
   <aside>
-    <p>Copyright © {new Date().getFullYear()} - All right reserved by BookStore Pvt Ltd</p>
+    <p>Copyright © {new Date().getFullYear()} - All right reserved by BookNest Pvt Ltd</p>
   </aside>
 </footer>
     </div>
