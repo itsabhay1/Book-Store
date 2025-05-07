@@ -1,12 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
 import connetDB from "./db/index.js";
+import bookRouter from "./Routes/book.route.js";
 
 dotenv.config({
     path: "./.env"
 })
 
 const app = express();
+
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
 
 connetDB()
 .then(() => {
@@ -21,5 +26,6 @@ connetDB()
 
 app.get('/', (req,res) => {
     res.send(`Server is live`)
-}
-)
+})
+
+app.use("/api/v1/book", bookRouter);
