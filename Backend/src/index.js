@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import connetDB from "./db/index.js";
-import bookRouter from "./Routes/book.route.js";
 import cors from "cors";
+
+import bookRouter from "./Routes/book.route.js";
+import userRouter from "./Routes/user.route.js";
 
 dotenv.config({
     path: "./.env"
@@ -31,3 +33,4 @@ app.get('/', (req,res) => {
 })
 
 app.use("/api/v1/book", bookRouter);
+app.use("/api/v1/user", userRouter);
