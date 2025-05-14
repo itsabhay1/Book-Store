@@ -20,7 +20,14 @@ export const signup = async (req,res)=>{
 
         })
         await createUser.save().then((user)=> {
-            res.status(201).json({message: "User Created successfully"})
+            res.status(201).json({
+                message: "User Created successfully",
+                user: {
+                    _id: createUser._id,
+                    fullName: createUser.fullName,
+                    email: createUser.email,
+                },
+            })
         })
     } catch (error) {
         console.log("Error:" + error.message)
@@ -32,7 +39,7 @@ export const signup = async (req,res)=>{
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select("+password");
 
         if (!user) {
             return res.status(400).json({ message: "Invalid username or password" });
