@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { useAuth } from '../context/AuthProvider'
 
 function Login() {
     const navigate = useNavigate()
+    const [_, setAuthUser] = useAuth()
+    const [loading, setLoading] = useState(false)
 
     const {
         register,
@@ -19,16 +22,24 @@ function Login() {
             password: data.password
         }
 
+        setLoading(true)
         try {
             const res = await axios.post("/api/v1/user/login", userInfo)
-            if (res.data) {
-                toast.success('Login Sucessfully!');
+            if (res.data?.user) {
+                setAuthUser(res.data.user)
+                localStorage.setItem("Users", JSON.stringify(res.data.user))
+                toast.success('Login Successfully!')
+                document.getElementById("my_modal_3")?.close()
+                navigate("/") // Navigate to home
             }
-            localStorage.setItem("Users", JSON.stringify(res.data.user))
         } catch (err) {
-            if (err.response) {
+            if (err.response?.data?.message) {
                 toast.error("Error: " + err.response.data.message)
+            } else {
+                toast.error("Login failed.")
             }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -37,7 +48,7 @@ function Login() {
         if (modal) {
             modal.close()
         }
-        navigate("/")
+        navigate("/") // Navigate home on close too
     }
 
     return (
@@ -65,7 +76,9 @@ function Login() {
                                 className='w-full py-2 px-3 border rounded-md outline-none'
                                 {...register("email", { required: true })}
                             />
-                            {errors.email && <span className="text-red-500 text-sm">Email is required</span>}
+                            {errors.email && (
+                                <span className="text-red-500 text-sm">Email is required</span>
+                            )}
                         </div>
 
                         {/* Password */}
@@ -77,16 +90,19 @@ function Login() {
                                 className='w-full py-2 px-3 border rounded-md outline-none'
                                 {...register("password", { required: true })}
                             />
-                            {errors.password && <span className="text-red-500 text-sm">Password is required</span>}
+                            {errors.password && (
+                                <span className="text-red-500 text-sm">Password is required</span>
+                            )}
                         </div>
 
                         {/* Submit Button */}
                         <div className="flex flex-col items-center mt-6 space-y-4">
                             <button
                                 type="submit"
-                                className="bg-pink-500 text-white rounded-md px-4 py-2 hover:bg-pink-700 duration-200"
+                                disabled={loading}
+                                className="bg-pink-500 text-white rounded-md px-4 py-2 hover:bg-pink-700 duration-200 disabled:opacity-50"
                             >
-                                Login
+                                {loading ? "Logging in..." : "Login"}
                             </button>
                             <p className="text-sm">
                                 Not registered?{' '}
