@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Login from './Login';
 import { useForm } from "react-hook-form";
@@ -28,7 +28,7 @@ function Signup() {
     };
 
     try {
-      const res = await axios.post("/api/v1/user/signup", userInfo);
+      const res = await axios.post("https://book-store-nine-lac.vercel.app/api/v1/user/signup", userInfo);
       if (res.data?.user) {
         toast.success('Registered Successfully!');
         setAuthUser(res.data.user); // ✅ update context

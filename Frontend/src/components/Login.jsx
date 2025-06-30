@@ -24,7 +24,7 @@ function Login() {
 
         setLoading(true)
         try {
-            const res = await axios.post("/api/v1/user/login", userInfo)
+            const res = await axios.post("https://book-store-nine-lac.vercel.app/api/v1/user/login", userInfo)
             if (res.data?.user) {
                 setAuthUser(res.data.user)
                 localStorage.setItem("Users", JSON.stringify(res.data.user))
